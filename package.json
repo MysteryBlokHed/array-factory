@@ -27,9 +27,6 @@
     "preset": "ts-jest",
     "testEnvironment": "jsdom"
   },
-  "dependencies": {
-    "@types/greasemonkey": "^4.0.2"
-  },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "greasetools": "^0.2.0",
