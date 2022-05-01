@@ -2,9 +2,9 @@ const { readFile, appendFile } = require('fs')
 const root = require('path').dirname(
   require.main.filename || process.mainModule.filename
 )
-const vanillaLibraryName = require('./webpack.config')().output.library
+const vanillaArrayFactory = require('./webpack.config')().output.library
 
-const exportAsNamespace = `\nexport as namespace ${vanillaLibraryName};\n`
+const exportAsNamespace = `\nexport as namespace ${vanillaArrayFactory};\n`
 
 console.log('Project Root:', root)
 

@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/package",
-  "name": "webpack-ts-userscript-library",
+  "name": "array-factory",
   "version": "0.1.0",
-  "description": "A template to create UserScript libraries using TypeScript and Webpack.",
-  "repository": "https://gitlab.com/MysteryBlokHed/webpack-ts-userscript-library",
-  "homepage": "https://gitlab.com/MysteryBlokHed/webpack-ts-userscript-library",
+  "description": "Array methods that only evaluate for each element when they're needed.",
+  "repository": "https://gitlab.com/MysteryBlokHed/array-factory",
+  "homepage": "https://gitlab.com/MysteryBlokHed/array-factory",
   "author": "Adam Thompson-Sharpe",
   "license": "MIT",
   "files": [

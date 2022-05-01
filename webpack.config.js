@@ -26,7 +26,7 @@ const banner = genBanner({
  * const { hello } = LibraryName
  * hello()
  */
-const vanillaLibraryName = 'LibraryName'
+const vanillaLibraryName = 'ArrayFactory'
 
 /** The name of the generated Userscript file, excluding the .user.js suffix */
 const outFile = package.name
