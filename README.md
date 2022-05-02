@@ -86,6 +86,13 @@ for (const value of factoryMap(abc, el => el * 2)) {
 
 All supported functions are both exported and added to Array prototypes.
 
+## Documentation
+
+Documentation for the main branch is hosted at <https://array-factory.adamts.me>.
+Documentation can be built from a cloned repository by running `yarn doc`.
+
+Examples are available under each function on the docs.
+
 ## Installation
 
 ### In a Node project
