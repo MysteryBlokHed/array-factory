@@ -77,11 +77,12 @@ for (const value of factoryMap(abc, el => el * 2)) {
 
 ## Supported functions
 
-| Original | Factory         |
-| :------- | :-------------- |
-| `map`    | `factoryMap`    |
-| `filter` | `factoryFilter` |
-| `flat`   | `factoryFlat`   |
+| Original  | Factory          |
+| :-------- | :--------------- |
+| `map`     | `factoryMap`     |
+| `filter`  | `factoryFilter`  |
+| `flat`    | `factoryFlat`    |
+| `flatMap` | `factoryFlatMap` |
 
 All supported functions are both exported and added to Array prototypes.
 

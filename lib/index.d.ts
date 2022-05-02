@@ -53,6 +53,23 @@ export declare function factoryFilter<T, S = unknown>(array: T[], callback: Filt
  * ```
  */
 export declare function factoryFlat<T, D extends number = 1>(array: T[], depth?: D): Generator<FlatArray<T[], D>, void>;
+/**
+ * @param array The array
+ * @param callback flatMap callback
+ * @param thisArg Optional argument. Binds `this` for callback
+ * @template T Type stored in array
+ * @template U Mapped type
+ *
+ * @example
+ * ```typescript
+ * const myArray = [1, 2, 3]
+ * for (const item of myArray.factoryFlatMap(el => [el, el * 2])) {
+ *   console.log(item)
+ * }
+ * // 1, 2, 2, 4, 3, 6
+ * ```
+ */
+export declare function factoryFlatMap<T, U>(array: T[], callback: MapCallback<T, U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
 declare global {
     interface Array<T> {
         /**
@@ -102,6 +119,22 @@ declare global {
          * ```
          */
         factoryFlat<D extends number = 1>(depth?: D): Generator<FlatArray<T[], D>, void>;
+        /**
+         * @param callback flatMap callback
+         * @param thisArg Optional argument. Binds `this` for callback
+         * @template T Type stored in array
+         * @template U Mapped type
+         *
+         * @example
+         * ```typescript
+         * const myArray = [1, 2, 3]
+         * for (const item of myArray.factoryFlatMap(el => [el, el * 2])) {
+         *   console.log(item)
+         * }
+         * // 1, 2, 2, 4, 3, 6
+         * ```
+         */
+        factoryFlatMap<U>(callback: MapCallback<T, U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
     }
 }
 

@@ -125,6 +125,49 @@ define('factoryFlat', function (this: unknown[], depth?) {
 } as Array<unknown>['flat'])
 
 // =========================
+//      factoryFlatMap
+// =========================
+
+/**
+ * @param array The array
+ * @param callback flatMap callback
+ * @param thisArg Optional argument. Binds `this` for callback
+ * @template T Type stored in array
+ * @template U Mapped type
+ *
+ * @example
+ * ```typescript
+ * const myArray = [1, 2, 3]
+ * for (const item of myArray.factoryFlatMap(el => [el, el * 2])) {
+ *   console.log(item)
+ * }
+ * // 1, 2, 2, 4, 3, 6
+ * ```
+ */
+export function* factoryFlatMap<T, U>(
+  array: T[],
+  callback: MapCallback<T, U>,
+  thisArg?: any,
+): Generator<FlatArray<U[], 1>, void> {
+  if (thisArg) callback = callback.bind(thisArg)
+  for (let i = 0; i < array.length; i++) {
+    const result = callback(array[i], i, array)
+
+    // Yield each element indivudually if result is an array,
+    // effectively flattening with depth 1
+    if (Array.isArray(result)) {
+      yield* result as any
+    } else {
+      yield result as any
+    }
+  }
+}
+
+define('factoryFlatMap', function (this: unknown[], callback, thisArg?) {
+  return factoryFlatMap(this, callback, thisArg)
+} as Array<unknown>['factoryFlatMap'])
+
+// =========================
 //      Global types
 // =========================
 
@@ -191,5 +234,25 @@ declare global {
     factoryFlat<D extends number = 1>(
       depth?: D,
     ): Generator<FlatArray<T[], D>, void>
+
+    /**
+     * @param callback flatMap callback
+     * @param thisArg Optional argument. Binds `this` for callback
+     * @template T Type stored in array
+     * @template U Mapped type
+     *
+     * @example
+     * ```typescript
+     * const myArray = [1, 2, 3]
+     * for (const item of myArray.factoryFlatMap(el => [el, el * 2])) {
+     *   console.log(item)
+     * }
+     * // 1, 2, 2, 4, 3, 6
+     * ```
+     */
+    factoryFlatMap<U>(
+      callback: MapCallback<T, U>,
+      thisArg?: any,
+    ): Generator<FlatArray<U[], 1>, void>
   }
 }
