@@ -5,7 +5,11 @@ const define = (prop: PropertyKey, value: any) =>
 //      factoryMap
 // =========================
 
-/** Callback for Array.map */
+/**
+ * Callback for Array.map
+ * @template T Type stored in array
+ * @template U Mapped type
+ */
 export type MapCallback<T, U> = (
   ...params: Parameters<Parameters<Array<T>['map']>[0]>
 ) => U
@@ -42,7 +46,11 @@ define('factoryMap', function (this: unknown[], callback, thisArg?) {
 //      factoryFilter
 // =========================
 
-/** Callback for Array.filter */
+/**
+ * Callback for Array.filter
+ * @template T Type stored in array
+ * @template S Type of all filtered values
+ */
 export type FilterCallback<T, S = unknown> = S extends T
   ? (value: T, index: number, array: T[]) => value is S
   : (value: T, index: number, array: T[]) => unknown

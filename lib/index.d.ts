@@ -1,4 +1,8 @@
-/** Callback for Array.map */
+/**
+ * Callback for Array.map
+ * @template T Type stored in array
+ * @template U Mapped type
+ */
 export declare type MapCallback<T, U> = (...params: Parameters<Parameters<Array<T>['map']>[0]>) => U;
 /**
  * @param array The array
@@ -16,7 +20,11 @@ export declare type MapCallback<T, U> = (...params: Parameters<Parameters<Array<
  * ```
  */
 export declare function factoryMap<T, U>(array: T[], callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
-/** Callback for Array.filter */
+/**
+ * Callback for Array.filter
+ * @template T Type stored in array
+ * @template S Type of all filtered values
+ */
 export declare type FilterCallback<T, S = unknown> = S extends T ? (value: T, index: number, array: T[]) => value is S : (value: T, index: number, array: T[]) => unknown;
 /**
  * @param array The array
