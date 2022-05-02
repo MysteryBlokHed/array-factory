@@ -75,6 +75,16 @@ for (const value of factoryMap(abc, el => el * 2)) {
 }
 ```
 
+## Supported functions
+
+| Original | Factory         |
+| :------- | :-------------- |
+| `map`    | `factoryMap`    |
+| `filter` | `factoryFilter` |
+| `flat`   | `factoryFlat`   |
+
+All supported functions are both exported and added to Array prototypes.
+
 ## Use
 
 ### In a Node project
