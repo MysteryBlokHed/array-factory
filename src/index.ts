@@ -1,3 +1,6 @@
+const define = (prop: PropertyKey, value: any) =>
+  Object.defineProperty(Array.prototype, prop, { value })
+
 // =========================
 //      factoryMap
 // =========================
@@ -21,11 +24,9 @@ export function* factoryMap<T, U>(
   for (let i = 0; i < array.length; i++) yield callback(array[i], i, array)
 }
 
-Object.defineProperty(Array.prototype, 'factoryMap', {
-  value: function (this: unknown[], callback, thisArg?) {
-    return factoryMap(this, callback, thisArg)
-  } as Array<unknown>['factoryMap'],
-})
+define('factoryMap', function (this: unknown[], callback, thisArg?) {
+  return factoryMap(this, callback, thisArg)
+} as Array<unknown>['factoryMap'])
 
 // =========================
 //      factoryFilter
@@ -53,15 +54,39 @@ export function* factoryFilter<T, S = unknown>(
   }
 }
 
-Object.defineProperty(Array.prototype, 'factoryFilter', {
-  value: function (
-    this: unknown[],
-    callback: FilterCallback<unknown>,
-    thisArg?: any,
-  ) {
+define(
+  'factoryFilter',
+  function (this: unknown[], callback: FilterCallback<unknown>, thisArg?: any) {
     return factoryFilter(this, callback, thisArg)
   },
-})
+)
+
+/**
+ * Modified for TypeScript from a Mozilla implementation
+ * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
+ * @param array The array
+ * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
+ */
+export function* factoryFlat<T, D extends number = 1>(
+  array: T[],
+  depth?: D,
+): Generator<FlatArray<T[], D>, void> {
+  if (depth === undefined) {
+    depth = 1 as D
+  }
+
+  for (const item of array) {
+    if (Array.isArray(item) && depth > 0) {
+      yield* factoryFlat(item, depth - 1)
+    } else {
+      yield item as any
+    }
+  }
+}
+
+define('factoryFlat', function (this: unknown[], depth?) {
+  return factoryFlat(this, depth) as any
+} as Array<unknown>['flat'])
 
 declare global {
   interface Array<T> {
@@ -87,5 +112,14 @@ declare global {
       callback: FilterCallback<T>,
       thisArg?: any,
     ): Generator<T, void>
+
+    /**
+     * Modified for TypeScript from a Mozilla implementation
+     * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
+     * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
+     */
+    factoryFlat<D extends number = 1>(
+      depth?: D,
+    ): Generator<FlatArray<T[], D>, void>
   }
 }

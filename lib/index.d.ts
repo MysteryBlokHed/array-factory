@@ -14,6 +14,13 @@ export declare type FilterCallback<T, S = unknown> = S extends T ? (value: T, in
  * @param thisArg Optional argument. Binds `this` for the callback
  */
 export declare function factoryFilter<T, S = unknown>(array: T[], callback: FilterCallback<T, S>, thisArg?: any): Generator<S extends unknown ? T : S, void>;
+/**
+ * Modified for TypeScript from a Mozilla implementation
+ * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
+ * @param array The array
+ * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
+ */
+export declare function factoryFlat<T, D extends number = 1>(array: T[], depth?: D): Generator<FlatArray<T[], D>, void>;
 declare global {
     interface Array<T> {
         /**
@@ -27,6 +34,12 @@ declare global {
          */
         factoryFilter<S extends T>(callback: FilterCallback<T, S>, thisArg?: any): Generator<S, void>;
         factoryFilter(callback: FilterCallback<T>, thisArg?: any): Generator<T, void>;
+        /**
+         * Modified for TypeScript from a Mozilla implementation
+         * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
+         * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
+         */
+        factoryFlat<D extends number = 1>(depth?: D): Generator<FlatArray<T[], D>, void>;
     }
 }
 
