@@ -2,6 +2,64 @@
 
 Array methods that only evaluate for each element when they're needed.
 
+## Why to use
+
+### Use case
+
+If you have a large array and want to use array methods such as `map` or `filter`,
+it might noticably slow down the page while it's in progress.
+Using array-factory, each element is only checked with the function when it's actually needed.
+
+```typescript
+// Double every value in an array using map
+
+// Normal map
+// Entire array is mapped at once
+const giantArray = Array(100_000_000).fill(2)
+const mapped = giantArray.map(el => el * 2)
+
+for (const value of giantArray) {
+  console.log(value)
+}
+
+// Factory map
+// One element is mapped at a time
+const giantArray = Array(100_000_000).fill(2)
+const mapped = giantArray.factoryMap(el => el * 2)
+
+for (const value of giantArray) {
+  console.log(value)
+}
+```
+
+This is done with the use of ES6 generators.
+Using the factory map code, the function `el => el * 2` is only run on each value
+when that value is used.
+
+### Refactoring old code
+
+If you are interested in using array-factory, the change is as simple as importing the library
+and replacing function calls with their factory versions.
+
+```typescript
+// Old
+const abc = [1, 2, 3]
+
+for (const value of abc.map(el => el * 2)) {
+  console.log(value)
+}
+
+// New
+import 'array-factory' // ES6
+require('array-factory') // CommonJS
+
+const abc = [1, 2, 3]
+
+for (const value of abc.factoryMap(el => el * 2)) {
+  console.log(value)
+}
+```
+
 ## Use
 
 ### In a Node project
@@ -29,7 +87,6 @@ In a UserScript that isn't built with some build tool, you can `@require` the li
 ```javascript
 // @require     https://gitlab.com/MysteryBlokHed/array-factory/-/raw/main/array-factory.user.js
 ```
-
 
 You can replace `main` with a specific release tag like `v0.1.0` to require a specific version:
 
