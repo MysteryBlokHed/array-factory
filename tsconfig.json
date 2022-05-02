@@ -3,8 +3,8 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2017",
-    "lib": ["dom", "es6"],
+    "target": "es2015",
+    "lib": ["es6"],
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,

@@ -32,7 +32,7 @@ for (const value of giantArray) {
 }
 ```
 
-This is done with the use of ES6 generators.
+This is done with the use of ES2015 generators.
 Using the factory map code, the function `el => el * 2` is only run on each value
 when that value is used.
 
