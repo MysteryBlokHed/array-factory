@@ -61,6 +61,10 @@ define(
   },
 )
 
+// =========================
+//      factoryFlat
+// =========================
+
 /**
  * Modified for TypeScript from a Mozilla implementation
  * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
@@ -87,6 +91,10 @@ export function* factoryFlat<T, D extends number = 1>(
 define('factoryFlat', function (this: unknown[], depth?) {
   return factoryFlat(this, depth) as any
 } as Array<unknown>['flat'])
+
+// =========================
+//      Global types
+// =========================
 
 declare global {
   interface Array<T> {

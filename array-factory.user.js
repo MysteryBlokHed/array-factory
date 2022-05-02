@@ -53,6 +53,9 @@ exports.factoryFilter = factoryFilter;
 define('factoryFilter', function (callback, thisArg) {
     return factoryFilter(this, callback, thisArg);
 });
+// =========================
+//      factoryFlat
+// =========================
 /**
  * Modified for TypeScript from a Mozilla implementation
  * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
