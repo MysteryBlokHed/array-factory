@@ -60,6 +60,21 @@ for (const value of abc.factoryMap(el => el * 2)) {
 }
 ```
 
+### Exported functions
+
+Each factory function is also exported if you prefer to import each function instead.
+
+```typescript
+import { factoryMap } from 'array-factory' // ES6
+const { factoryMap } = require('array-factory') // CommonJS
+
+const abc = [1, 2, 3]
+
+for (const value of factoryMap(abc, el => el * 2)) {
+  console.log(value)
+}
+```
+
 ## Use
 
 ### In a Node project
@@ -77,7 +92,7 @@ yarn add array-factory
 You can then import and use functions:
 
 ```javascript
-import { someFunction } from 'array-factory'
+import { factoryMap } from 'array-factory'
 ```
 
 ### In a normal UserScript
@@ -104,7 +119,7 @@ which can be used by changing the file extension to `.min.user.js`:
 Functions are available on the global `ArrayFactory` object:
 
 ```javascript
-const { someFunction } = ArrayFactory
+const { factoryMap } = ArrayFactory
 ```
 
 #### Type declarations
