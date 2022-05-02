@@ -5,7 +5,15 @@ export declare type MapCallback<T, U> = (...params: Parameters<Parameters<Array<
  * @param callback Map callback
  * @param thisArg Optional argument. Binds `this` for the callback
  */
-export declare function factoryMap<T, U>(array: T[], callback: MapCallback<T, U>, thisArg?: any): Generator<U, void, unknown>;
+export declare function factoryMap<T, U>(array: T[], callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
+/** Callback for Array.filter */
+export declare type FilterCallback<T, S = unknown> = S extends T ? (value: T, index: number, array: T[]) => value is S : (value: T, index: number, array: T[]) => unknown;
+/**
+ * @param array The array
+ * @param callback Filter callback
+ * @param thisArg Optional argument. Binds `this` for the callback
+ */
+export declare function factoryFilter<T, S = unknown>(array: T[], callback: FilterCallback<T, S>, thisArg?: any): Generator<S extends unknown ? T : S, void>;
 declare global {
     interface Array<T> {
         /**
@@ -13,6 +21,12 @@ declare global {
          * @param thisArg Optional argument. Binds `this` for the callback
          */
         factoryMap<U>(callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
+        /**
+         * @param callback Filter callback
+         * @param thisArg Optional argument. Binds `this` for the callback
+         */
+        factoryFilter<S extends T>(callback: FilterCallback<T, S>, thisArg?: any): Generator<S, void>;
+        factoryFilter(callback: FilterCallback<T>, thisArg?: any): Generator<T, void>;
     }
 }
 

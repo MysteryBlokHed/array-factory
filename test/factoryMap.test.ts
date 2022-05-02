@@ -6,6 +6,7 @@ describe('factoryMap', () => {
 
     let i = 0
 
+    // Double original numbers
     for (const num of factoryMap(array, el => el * 2)) {
       expect(num).toBe(array[i] * 2)
       i++
@@ -17,6 +18,7 @@ describe('factoryMap', () => {
 
     let i = 0
 
+    // Double original numbers
     for (const num of array.factoryMap(el => el * 2)) {
       expect(num).toBe(array[i] * 2)
       i++
