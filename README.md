@@ -1,4 +1,4 @@
-# array-factory
+# array-factory [![Build Badge]](https://gitlab.com/MysteryBlokHed/array-factory/-/pipelines) [![NPM Badge]](https://www.npmjs.com/package/array-factory) [![License Badge]](#license)
 
 Array methods that only evaluate for each element when they're needed.
 
@@ -197,3 +197,7 @@ This project was created from [a template](https://gitlab.com/MysteryBlokHed/arr
 licensed under the MIT license
 ([LICENSE](https://gitlab.com/MysteryBlokHed/array-factory/-/blob/main/LICENSE)
 or <http://opensource.org/licenses/MIT>).
+
+[build badge]: https://img.shields.io/gitlab/pipeline-status/MysteryBlokHed/array-factory
+[npm badge]: https://img.shields.io/npm/v/array-factory
+[license badge]: https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-green
