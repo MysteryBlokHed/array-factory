@@ -2,9 +2,9 @@
 
 Array methods that only evaluate for each element when they're needed.
 
-## Why to use
+## Use
 
-### Use case
+### Why to use
 
 If you have a large array and want to use array methods such as `map` or `filter`,
 it might noticably slow down the page while it's in progress.
@@ -86,7 +86,7 @@ for (const value of factoryMap(abc, el => el * 2)) {
 
 All supported functions are both exported and added to Array prototypes.
 
-## Use
+## Installation
 
 ### In a Node project
 
