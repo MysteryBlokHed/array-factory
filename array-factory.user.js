@@ -24,7 +24,7 @@ const define = (prop, value) => Object.defineProperty(Array.prototype, prop, { v
  * @param array The array
  * @param callback Map callback
  * @param thisArg Optional argument. Binds `this` for the callback
- * @template T Type stored in array
+ * @template T Array type
  * @template U Mapped type
  *
  * @example
@@ -49,7 +49,7 @@ define('factoryMap', function (callback, thisArg) {
  * @param array The array
  * @param callback Filter callback
  * @param thisArg Optional argument. Binds `this` for the callback
- * @template T Type stored in array
+ * @template T Array type
  * @template S Type of all filtered values
  *
  * @example
@@ -82,7 +82,7 @@ define('factoryFilter', function (callback, thisArg) {
  * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
  * @param array The array
  * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
- * @template T Type stored in array
+ * @template T Array type
  * @template D Depth
  *
  * @example
@@ -118,7 +118,7 @@ define('factoryFlat', function (depth) {
  * @param array The array
  * @param callback flatMap callback
  * @param thisArg Optional argument. Binds `this` for callback
- * @template T Type stored in array
+ * @template T Array type
  * @template U Mapped type
  *
  * @example
