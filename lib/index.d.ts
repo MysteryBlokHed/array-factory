@@ -92,6 +92,7 @@ declare global {
          * for (const item of myArray.factoryMap(el => el * 2)) {
          *   console.log(item)
          * }
+         * ```
          */
         factoryMap<U>(callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
         /**
@@ -107,6 +108,7 @@ declare global {
          * for (const item of myArray.factoryFilter(el => !(el % 2))) {
          *   console.log(item)
          * }
+         * ```
          */
         factoryFilter<S extends T>(callback: FilterCallback<T, S>, thisArg?: any): Generator<S, void>;
         factoryFilter(callback: FilterCallback<T>, thisArg?: any): Generator<T, void>;

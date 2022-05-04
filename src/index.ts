@@ -193,6 +193,7 @@ declare global {
      * for (const item of myArray.factoryMap(el => el * 2)) {
      *   console.log(item)
      * }
+     * ```
      */
     factoryMap<U>(
       callback: MapCallback<T, U>,
@@ -212,6 +213,7 @@ declare global {
      * for (const item of myArray.factoryFilter(el => !(el % 2))) {
      *   console.log(item)
      * }
+     * ```
      */
     factoryFilter<S extends T>(
       callback: FilterCallback<T, S>,
