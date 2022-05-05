@@ -1,5 +1,17 @@
-const define = (prop: PropertyKey, value: any) =>
+/**
+ * Prototype for Generator objects.
+ * Used to define properties to allow chaining factory functions
+ */
+const generatorProto = Object.getPrototypeOf(
+  Object.getPrototypeOf((function* () {})()),
+)
+
+const define = (prop: PropertyKey, value: any) => {
   Object.defineProperty(Array.prototype, prop, { value })
+  Object.defineProperty(generatorProto, prop, { value })
+}
+
+type IterType<T extends Iterable<any>> = T extends Iterable<infer U> ? U : never
 
 // =========================
 //      factoryMap
@@ -10,8 +22,8 @@ const define = (prop: PropertyKey, value: any) =>
  * @template T Array type
  * @template U Mapped type
  */
-export type MapCallback<T extends readonly any[], U> = (
-  value: T[number],
+export type MapCallback<T extends Iterable<any>, U> = (
+  value: IterType<T>,
   index: number,
   array: T,
 ) => U
@@ -31,14 +43,21 @@ export type MapCallback<T extends readonly any[], U> = (
  * }
  * ```
  */
-export function* factoryMap<T extends readonly any[], U>(
+export function* factoryMap<T extends Iterable<any>, U>(
   array: T,
   callback: MapCallback<T, U>,
   thisArg?: any,
 ): Generator<U, void> {
   if (thisArg) callback = callback.bind(thisArg)
-  for (let i = 0; i < array.length; i++) yield callback(array[i], i, array)
+  let i = 0
+  for (const item of array) {
+    yield callback(item, i, array)
+    i++
+  }
 }
+
+const test = [1, 2, 3] as const
+factoryMap(test, el => el)
 
 define('factoryMap', function (this: unknown[], callback, thisArg?) {
   return factoryMap(this, callback, thisArg)
@@ -53,9 +72,12 @@ define('factoryMap', function (this: unknown[], callback, thisArg?) {
  * @template T Array type
  * @template S Type of all filtered values
  */
-export type FilterCallback<T extends readonly any[], S = unknown> = S extends T
-  ? (value: T[number], index: number, array: T) => value is S
-  : (value: T[number], index: number, array: T) => unknown
+export type FilterCallback<
+  T extends Iterable<any>,
+  S = unknown,
+> = S extends IterType<T>
+  ? (value: IterType<T>, index: number, array: T) => value is S
+  : (value: IterType<T>, index: number, array: T) => unknown
 
 /**
  * @param array The array
@@ -73,15 +95,16 @@ export type FilterCallback<T extends readonly any[], S = unknown> = S extends T
  * }
  * ```
  */
-export function* factoryFilter<T extends readonly any[], S = unknown>(
+export function* factoryFilter<T extends Iterable<any>, S = unknown>(
   array: T,
   callback: FilterCallback<T, S>,
   thisArg?: any,
-): Generator<S extends unknown ? T[number] : S, void> {
-  if (thisArg) callback = callback.bind(thisArg)
-  for (let i = 0; i < array.length; i++) {
-    const item = array[i]
+): Generator<S extends unknown ? IterType<T> : S, void> {
+  if (thisArg) callback = callback.bind(thisArg) as typeof callback
+  let i = 0
+  for (const item of array) {
     if (callback(item, i, array)) yield item
+    i++
   }
 }
 
@@ -117,10 +140,10 @@ define(
  * // 1, 2, 3, 4
  * ```
  */
-export function* factoryFlat<T extends readonly any[], D extends number = 1>(
+export function* factoryFlat<T extends Iterable<any>, D extends number = 1>(
   array: T,
   depth?: D,
-): Generator<FlatArray<T, D>, void> {
+): Generator<FlatArray<Array<IterType<T>>, D>, void> {
   if (depth === undefined) {
     depth = 1 as D
   }
@@ -158,14 +181,16 @@ define('factoryFlat', function (this: unknown[], depth?) {
  * // 1, 2, 2, 4, 3, 6
  * ```
  */
-export function* factoryFlatMap<T extends readonly any[], U>(
+export function* factoryFlatMap<T extends Iterable<any>, U>(
   array: T,
   callback: MapCallback<T, U>,
   thisArg?: any,
 ): Generator<FlatArray<U[], 1>, void> {
   if (thisArg) callback = callback.bind(thisArg)
-  for (let i = 0; i < array.length; i++) {
-    const result = callback(array[i], i, array)
+  let i = 0
+  for (const item of array) {
+    const result = callback(item, i, array)
+    i++
 
     // Yield each element indivudually if result is an array,
     // effectively flattening with depth 1
@@ -277,4 +302,5 @@ export interface ArrayMethods<T> {
 declare global {
   interface Array<T> extends ArrayMethods<T> {}
   interface ReadonlyArray<T> extends ArrayMethods<T> {}
+  interface Generator<T> extends ArrayMethods<T> {}
 }
