@@ -82,11 +82,10 @@ export declare function factoryFlatMap<T extends Iterable<any>, U>(array: T, cal
 /**
  * Methods added to Array and ReadonlyArray interfaces
  */
-export interface ArrayMethods<T> {
+export interface ArrayMethods<T extends Iterable<any>> {
     /**
      * @param callback Map callback
      * @param thisArg Optional argument. Binds `this` for the callback
-     * @template T Array type
      * @template U Mapped type
      *
      * @example
@@ -97,11 +96,10 @@ export interface ArrayMethods<T> {
      * }
      * ```
      */
-    factoryMap<U>(callback: MapCallback<T[], U>, thisArg?: any): Generator<U, void>;
+    factoryMap<U>(callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
     /**
      * @param callback Filter callback
      * @param thisArg Optional argument. Binds `this` for the callback
-     * @template T Array type
      * @template S Type of all filtered values
      *
      * @example
@@ -113,13 +111,12 @@ export interface ArrayMethods<T> {
      * }
      * ```
      */
-    factoryFilter<S extends T>(callback: FilterCallback<T[], S>, thisArg?: any): Generator<S, void>;
-    factoryFilter(callback: FilterCallback<T[]>, thisArg?: any): Generator<T, void>;
+    factoryFilter<S extends IterType<T>>(callback: FilterCallback<T, S>, thisArg?: any): Generator<S, void>;
+    factoryFilter(callback: FilterCallback<T>, thisArg?: any): Generator<IterType<T>, void>;
     /**
      * Modified for TypeScript from a Mozilla implementation
      * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
      * @param depth How many arrays deep to flatten. Can be `Infinity` for a fully flat array
-     * @template T Array type
      * @template D Depth
      *
      * @example
@@ -131,11 +128,10 @@ export interface ArrayMethods<T> {
      * // 1, 2, 3, 4
      * ```
      */
-    factoryFlat<D extends number = 1>(depth?: D): Generator<FlatArray<T[], D>, void>;
+    factoryFlat<D extends number = 1>(depth?: D): Generator<FlatArray<Array<IterType<T>>, D>, void>;
     /**
      * @param callback flatMap callback
      * @param thisArg Optional argument. Binds `this` for callback
-     * @template T Array type
      * @template U Mapped type
      *
      * @example
@@ -147,14 +143,14 @@ export interface ArrayMethods<T> {
      * // 1, 2, 2, 4, 3, 6
      * ```
      */
-    factoryFlatMap<U>(callback: MapCallback<T[], U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
+    factoryFlatMap<U>(callback: MapCallback<T, U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
 }
 declare global {
-    interface Array<T> extends ArrayMethods<T> {
+    interface Array<T> extends ArrayMethods<T[]> {
     }
-    interface ReadonlyArray<T> extends ArrayMethods<T> {
+    interface ReadonlyArray<T> extends ArrayMethods<readonly T[]> {
     }
-    interface Generator<T> extends ArrayMethods<T> {
+    interface Generator<T> extends ArrayMethods<Generator<T>> {
     }
 }
 export {};
