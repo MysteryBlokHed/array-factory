@@ -1,9 +1,10 @@
+declare type IterType<T extends Iterable<any>> = T extends Iterable<infer U> ? U : never;
 /**
  * Callback for Array.map
  * @template T Array type
  * @template U Mapped type
  */
-export declare type MapCallback<T extends readonly any[], U> = (value: T[number], index: number, array: T) => U;
+export declare type MapCallback<T extends Iterable<any>, U> = (value: IterType<T>, index: number, array: T) => U;
 /**
  * @param array The array
  * @param callback Map callback
@@ -19,13 +20,13 @@ export declare type MapCallback<T extends readonly any[], U> = (value: T[number]
  * }
  * ```
  */
-export declare function factoryMap<T extends readonly any[], U>(array: T, callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
+export declare function factoryMap<T extends Iterable<any>, U>(array: T, callback: MapCallback<T, U>, thisArg?: any): Generator<U, void>;
 /**
  * Callback for Array.filter
  * @template T Array type
  * @template S Type of all filtered values
  */
-export declare type FilterCallback<T extends readonly any[], S = unknown> = S extends T ? (value: T[number], index: number, array: T) => value is S : (value: T[number], index: number, array: T) => unknown;
+export declare type FilterCallback<T extends Iterable<any>, S = unknown> = S extends IterType<T> ? (value: IterType<T>, index: number, array: T) => value is S : (value: IterType<T>, index: number, array: T) => unknown;
 /**
  * @param array The array
  * @param callback Filter callback
@@ -42,7 +43,7 @@ export declare type FilterCallback<T extends readonly any[], S = unknown> = S ex
  * }
  * ```
  */
-export declare function factoryFilter<T extends readonly any[], S = unknown>(array: T, callback: FilterCallback<T, S>, thisArg?: any): Generator<S extends unknown ? T[number] : S, void>;
+export declare function factoryFilter<T extends Iterable<any>, S = unknown>(array: T, callback: FilterCallback<T, S>, thisArg?: any): Generator<S extends unknown ? IterType<T> : S, void>;
 /**
  * Modified for TypeScript from a Mozilla implementation
  * @see {@link <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#use_generator_function>}
@@ -60,7 +61,7 @@ export declare function factoryFilter<T extends readonly any[], S = unknown>(arr
  * // 1, 2, 3, 4
  * ```
  */
-export declare function factoryFlat<T extends readonly any[], D extends number = 1>(array: T, depth?: D): Generator<FlatArray<T, D>, void>;
+export declare function factoryFlat<T extends Iterable<any>, D extends number = 1>(array: T, depth?: D): Generator<FlatArray<Array<IterType<T>>, D>, void>;
 /**
  * @param array The array
  * @param callback flatMap callback
@@ -77,7 +78,7 @@ export declare function factoryFlat<T extends readonly any[], D extends number =
  * // 1, 2, 2, 4, 3, 6
  * ```
  */
-export declare function factoryFlatMap<T extends readonly any[], U>(array: T, callback: MapCallback<T, U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
+export declare function factoryFlatMap<T extends Iterable<any>, U>(array: T, callback: MapCallback<T, U>, thisArg?: any): Generator<FlatArray<U[], 1>, void>;
 /**
  * Methods added to Array and ReadonlyArray interfaces
  */
@@ -153,6 +154,9 @@ declare global {
     }
     interface ReadonlyArray<T> extends ArrayMethods<T> {
     }
+    interface Generator<T> extends ArrayMethods<T> {
+    }
 }
+export {};
 
 export as namespace ArrayFactory;

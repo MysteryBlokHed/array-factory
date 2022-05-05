@@ -24,4 +24,10 @@ describe('factoryMap', () => {
       i++
     }
   })
+
+  it('can be chained', () => {
+    const array = [1, 2, 3]
+    const map = array.factoryMap(el => el * 2).factoryMap(el => el ** 2)
+    expect([...map]).toEqual([4, 16, 36])
+  })
 })

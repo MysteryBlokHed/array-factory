@@ -19,7 +19,15 @@ var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.factoryFlatMap = exports.factoryFlat = exports.factoryFilter = exports.factoryMap = void 0;
-const define = (prop, value) => Object.defineProperty(Array.prototype, prop, { value });
+/**
+ * Prototype for Generator objects.
+ * Used to define properties to allow chaining factory functions
+ */
+const generatorProto = Object.getPrototypeOf(Object.getPrototypeOf((function* () { })()));
+const define = (prop, value) => {
+    Object.defineProperty(Array.prototype, prop, { value });
+    Object.defineProperty(generatorProto, prop, { value });
+};
 /**
  * @param array The array
  * @param callback Map callback
@@ -38,10 +46,15 @@ const define = (prop, value) => Object.defineProperty(Array.prototype, prop, { v
 function* factoryMap(array, callback, thisArg) {
     if (thisArg)
         callback = callback.bind(thisArg);
-    for (let i = 0; i < array.length; i++)
-        yield callback(array[i], i, array);
+    let i = 0;
+    for (const item of array) {
+        yield callback(item, i, array);
+        i++;
+    }
 }
 exports.factoryMap = factoryMap;
+const test = [1, 2, 3];
+factoryMap(test, el => el);
 define('factoryMap', function (callback, thisArg) {
     return factoryMap(this, callback, thisArg);
 });
@@ -64,10 +77,11 @@ define('factoryMap', function (callback, thisArg) {
 function* factoryFilter(array, callback, thisArg) {
     if (thisArg)
         callback = callback.bind(thisArg);
-    for (let i = 0; i < array.length; i++) {
-        const item = array[i];
+    let i = 0;
+    for (const item of array) {
         if (callback(item, i, array))
             yield item;
+        i++;
     }
 }
 exports.factoryFilter = factoryFilter;
@@ -133,8 +147,10 @@ define('factoryFlat', function (depth) {
 function* factoryFlatMap(array, callback, thisArg) {
     if (thisArg)
         callback = callback.bind(thisArg);
-    for (let i = 0; i < array.length; i++) {
-        const result = callback(array[i], i, array);
+    let i = 0;
+    for (const item of array) {
+        const result = callback(item, i, array);
+        i++;
         // Yield each element indivudually if result is an array,
         // effectively flattening with depth 1
         if (Array.isArray(result)) {
