@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Changed target version from ES2017 to ES6
+- Made tests more concise
 
 ### Fixed
 

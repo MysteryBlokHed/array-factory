@@ -2,47 +2,35 @@ import { factoryFlat } from '../lib'
 
 describe('factoryFlat', () => {
   it('works with exported function', () => {
+    // Depth 1
     const nested1 = [1, 2, [3, 4]]
     const nested1Flat = nested1.flat()
+    const nested1Factory = factoryFlat(nested1)
 
-    let i = 0
+    expect([...nested1Factory]).toEqual(nested1Flat)
 
-    for (const item of factoryFlat(nested1)) {
-      expect(item).toBe(nested1Flat[i])
-      i++
-    }
-
+    // Depth 2
     const nested2 = [1, 2, [3, 4, [5, 6]]]
     const nested2Flat = nested2.flat(2)
+    const nested2Factory = factoryFlat(nested2, 2)
 
-    i = 0
-
-    for (const item of factoryFlat(nested2, 2)) {
-      expect(item).toBe(nested2Flat[i])
-      i++
-    }
+    expect([...nested2Factory]).toEqual(nested2Flat)
   })
 
   it('works with defined property', () => {
+    // Depth 1
     const nested1 = [1, 2, [3, 4]]
     const nested1Flat = nested1.flat()
+    const nested1Factory = nested1.factoryFlat()
 
-    let i = 0
+    expect([...nested1Factory]).toEqual(nested1Flat)
 
-    for (const item of nested1.factoryFlat()) {
-      expect(item).toBe(nested1Flat[i])
-      i++
-    }
-
+    // Depth 2
     const nested2 = [1, 2, [3, 4, [5, 6]]]
     const nested2Flat = nested2.flat(2)
+    const nested2Factory = nested2.factoryFlat(2)
 
-    i = 0
-
-    for (const item of nested2.factoryFlat(2)) {
-      expect(item).toBe(nested2Flat[i])
-      i++
-    }
+    expect([...nested2Factory]).toEqual(nested2Flat)
   })
 
   it('can be chained', () => {
