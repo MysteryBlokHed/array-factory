@@ -36,6 +36,25 @@ This is done with the use of ES6 generators.
 Using the factory map code, the function `el => el * 2` is only run on each value
 when that value is used.
 
+### Chaining functions
+
+The added factory functions are also added to the `Generator` type they return.
+This means that you're able to chain these functions together, just like normal array methods:
+
+```typescript
+const someArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const mapped = someArray
+  // Only even numbers
+  .factoryFilter(el => el % 2 === 0)
+  // Double every number
+  .factoryMap(el => el * 2)
+
+for (const value of mapped) {
+  console.log(value)
+}
+// 4, 8, 12, 16, 20
+```
+
 ### Refactoring old code
 
 If you are interested in using array-factory, the change is as simple as importing the library
