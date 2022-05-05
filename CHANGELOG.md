@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Changed target version from ES2017 to ES6
 
+### Fixed
+
+- Fixed missing ` ``` ` on some `global` function examples (TypeScript)
+
 ## 0.1.0
 
 ### Added
