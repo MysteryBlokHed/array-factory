@@ -44,4 +44,11 @@ describe('factoryFlat', () => {
       i++
     }
   })
+
+  it('can be chained', () => {
+    const nested2 = [1, 2, [3, 4, [5, 6]]]
+    const flat = nested2.factoryFlat().factoryFlat()
+
+    expect([...flat]).toEqual([1, 2, 3, 4, 5, 6])
+  })
 })
