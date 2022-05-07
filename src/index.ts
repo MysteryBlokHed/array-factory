@@ -56,9 +56,6 @@ export function* factoryMap<T extends Iterable<any>, U>(
   }
 }
 
-const test = [1, 2, 3] as const
-factoryMap(test, el => el)
-
 define('factoryMap', function (this: unknown[], callback, thisArg?) {
   return factoryMap(this, callback, thisArg)
 } as Array<unknown>['factoryMap'])
