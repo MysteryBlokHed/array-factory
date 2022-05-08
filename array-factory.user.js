@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        array-factory
 // @descripton  Array methods that only evaluate for each element when they're needed.
-// @version     0.2.0
+// @version     0.2.1
 // @author      Adam Thompson-Sharpe
 // @license     MIT OR Apache-2.0
 // @homepageURL https://gitlab.com/MysteryBlokHed/array-factory

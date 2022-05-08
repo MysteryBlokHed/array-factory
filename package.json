@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package",
   "name": "array-factory",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Array methods that only evaluate for each element when they're needed.",
   "repository": "https://gitlab.com/MysteryBlokHed/array-factory",
   "homepage": "https://gitlab.com/MysteryBlokHed/array-factory",
